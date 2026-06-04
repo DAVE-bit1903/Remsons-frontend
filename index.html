@@ -1,1 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remsons Hospitality</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+    tailwind.config={theme:{extend:{fontFamily:{display:['"Playfair Display"','serif'],body:['"DM Sans"','sans-serif']}}}}
+    </script>
+    <style>
+        :root{--accent:#B87333;--accent-light:#D4955A;--accent-dark:#8F5A28;--cream:#FAF7F2;--border:#E8E2D9;--success:#10B981;--danger:#EF4444;--warning:#F59E0B}
+        body{font-family:'DM Sans',sans-serif;overflow-x:hidden}
+        .particles-container{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+        .particle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(184,115,51,0.25) 0%,transparent 70%);animation:particleDrift linear infinite}
+        @keyframes particleDrift{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) rotate(360deg);opacity:0}}
+        .hero-video-wrap{position:relative;overflow:hidden;border-radius:1.5rem}
+        .hero-video-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+        .hero-video-overlay{position:relative;z-index:1;background:linear-gradient(135deg,rgba(250,247,242,0.93) 0%,rgba(250,247,242,0.82) 50%,rgba(184,115,51,0.10) 100%)}
+        .card-3d{transition:transform 0.4s cubic-bezier(.4,0,.2,1),box-shadow 0.4s ease;transform-style:preserve-3d}
+        .card-3d:hover{box-shadow:0 20px 50px rgba(184,115,51,0.15),0 8px 16px rgba(0,0,0,0.06)}
+        .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(.4,0,.2,1),transform 0.7s cubic-bezier(.4,0,.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+        .btn-ripple{position:relative;overflow:hidden}
+        .btn-ripple .ripple-circle{position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);transform:scale(0);animation:rippleExpand 0.6s ease-out forwards}
+        @keyframes rippleExpand{to{transform:scale(4);opacity:0}}
+        .shimmer{background:linear-gradient(90deg,transparent 0%,rgba(184,115,51,0.08) 50%,transparent 100%);background-size:200% 100%;animation:shimmerMove 2s ease-in-out infinite}
+        @keyframes shimmerMove{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulseDot 2s ease-in-out infinite}
+        @keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.4)}50%{box-shadow:0 0 0 8px rgba(16,185,129,0)}}
+        .video-showcase{position:relative;overflow:hidden;border-radius:1.5rem;box-shadow:0 25px 60px rgba(0,0,0,0.12)}
+        .video-showcase video{width:100%;display:block;border-radius:1.5rem}
+        .video-overlay-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 50%);border-radius:1.5rem;pointer-events:none}
+        .marquee-track{display:flex;gap:3rem;animation:marqueeScroll 30s linear infinite;width:max-content}
+        @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .room-card{border-left:4px solid var(--border);transition:all 0.35s cubic-bezier(.4,0,.2,1)}
+        .room-card:hover{border-left-color:var(--accent);background:var(--cream);transform:translateX(4px)}
+        .room-card.occupied{border-left-color:var(--success)}
+        .room-card.occupied:hover{border-left-color:#059669}
+        .occ-tag{animation:popIn 0.3s cubic-bezier(.175,.885,.32,1.275) forwards}
+        @keyframes popIn{from{opacity:0;transform:scale(0.6) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+        .fade-up{opacity:0;transform:translateY(16px);animation:fadeUp 0.5s cubic-bezier(.4,0,.2,1) forwards}
+        @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+        .modal-overlay{opacity:0;pointer-events:none;transition:opacity 0.35s ease}
+        .modal-overlay.active{opacity:1;pointer-events:all}
+        .modal-box{transform:translateY(24px) scale(0.95);transition:transform 0.4s cubic-bezier(.175,.885,.32,1.275)}
+        .modal-overlay.active .modal-box{transform:translateY(0) scale(1)}
+        .toast-item{animation:toastIn 0.4s cubic-bezier(.175,.885,.32,1.275) forwards}
+        .toast-item.out{animation:toastOut 0.3s ease forwards}
+        @keyframes toastIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @keyframes toastOut{from{transform:translateX(0);opacity:1}to{transform:translateX(120%);opacity:0}}
+        .btn-accent{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dark) 100%);color:#fff;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(184,115,51,0.2)}
+        .btn-accent:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(184,115,51,0.35)}
+        .btn-accent:active{transform:translateY(0)}
+        .btn-outline{border:1.5px solid var(--border);color:#374151;background:#fff;transition:all 0.3s ease}
+        .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+        .btn-danger-fill{background:linear-gradient(135deg,#EF4444 0%,#DC2626 100%);color:#fff;transition:all 0.3s ease}
+        .btn-danger-fill:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(239,68,68,0.3)}
+        .input-styled{border:1.5px solid var(--border);transition:all 0.3s ease}
+        .input-styled:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(184,115,51,0.1);outline:none}
+        .bhk-btn{border:2px solid var(--border);transition:all 0.35s cubic-bezier(.175,.885,.32,1.275);cursor:pointer}
+        .bhk-btn:hover{border-color:var(--accent-light);transform:scale(1.05)}
+        .bhk-btn.selected{border-color:var(--accent);background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;transform:scale(1.1);box-shadow:0 6px 20px rgba(184,115,51,0.35)}
+        .nav-link{position:relative}.nav-link::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:var(--accent);transition:all 0.3s ease;transform:translateX(-50%);border-radius:1px}.nav-link:hover::after,.nav-link.active::after{width:80%}
+        .progress-fill{transition:width 0.8s cubic-bezier(.4,0,.2,1)}
+        .sync-pulse{animation:syncPulse 1.5s ease-in-out infinite}
+        @keyframes syncPulse{0%,100%{opacity:1}50%{opacity:0.3}}
+        .fab{position:fixed;bottom:28px;right:28px;z-index:40;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(184,115,51,0.4);transition:all 0.3s cubic-bezier(.175,.885,.32,1.275);cursor:pointer;border:none;font-size:1.25rem}
+        .fab:hover{transform:scale(1.12) rotate(90deg);box-shadow:0 12px 40px rgba(184,115,51,0.5)}
+        .onboard-step{transition:all 0.5s cubic-bezier(.4,0,.2,1)}.onboard-step.active-step{opacity:1;transform:translateX(0)}.onboard-step.left-step{opacity:0;transform:translateX(-60px);position:absolute;pointer-events:none}.onboard-step.right-step{opacity:0;transform:translateX(60px);position:absolute;pointer-events:none}
+        .step-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all 0.4s ease}.step-dot.active{background:var(--accent);transform:scale(1.3)}
+        .spin-loader{width:20px;height:20px;border:2.5px solid rgba(184,115,51,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D4C5B5;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+        @media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,1fr)!important}.fab{bottom:20px;right:20px;width:54px;height:54px;font-size:1.1rem}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+    </style>
+</head>
+<body class="bg-white text-gray-900 min-h-screen relative">
 
+<div class="particles-container" id="particlesContainer"></div>
+<div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none" style="max-width:360px;"></div>
+
+<!-- ONBOARDING WIZARD -->
+<div id="onboarding" class="fixed inset-0 z-[200] bg-white flex items-center justify-center p-4">
+    <div class="w-full max-w-lg">
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="step-dot active" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+        </div>
+
+        <div class="onboard-step active-step" id="onboardStep1">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 rounded-2xl mx-auto mb-5 flex items-center justify-center fade-up" style="background:linear-gradient(135deg,var(--accent),var(--accent-dark));"><i class="fas fa-hotel text-white text-2xl"></i></div>
+                <h2 class="font-display text-3xl font-bold mb-2 fade-up" style="animation-delay:100ms;">Welcome to Remsons</h2>
+                <p class="text-gray-400 text-sm max-w-sm mx-auto fade-up" style="animation-delay:200ms;">Premium guest house management. Connect your Render backend to sync data across all devices.</p>
+            </div>
+            <div class="space-y-3 fade-up" style="animation-delay:300ms;">
+                <button onclick="onboardNext(2)" class="btn-accent btn-ripple w-full py-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"><i class="fas fa-cloud"></i> Set Up Cloud Backend</button>
+                <button onclick="skipOnboarding()" class="btn-outline w-full py-3.5 rounded-xl font-semibold text-sm text-gray-400">Skip — Use Offline Mode</button>
+                <p class="text-[11px] text-gray-300 text-center mt-2">Offline mode stores data only on this browser</p>
+            </div>
+        </div>
+
+        <div class="onboard-step right-step" id="onboardStep2">
+            <h3 class="font-display text-2xl font-bold mb-1">Backend Setup Guide</h3>
+            <p class="text-gray-400 text-sm mb-5">Deploy the Node.js backend to Render</p>
+            <div class="space-y-3 mb-6">
+                <div class="flex gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100 fade-up"><span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background:var(--accent);color:#fff;">1</span><div><p class="text-sm font-semibold">Create MongoDB Atlas Cluster</p><p class="text-xs text-gray-400">Free tier at mongodb.com/cloud/atlas → Create Cluster → Get Connection URI</p></div></div>
+                <div class="flex gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100 fade-up" style="animation-delay:80ms;"><span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background:var(--accent);color:#fff;">2</span><div><p class="text-sm font-semibold">Push Backend to GitHub</p><p class="text-xs text-gray-400">Create a repo, add server.js & package.json, push code</p></div></div>
+                <div class="flex gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100 fade-up" style="animation-delay:160ms;"><span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background:var(--accent);color:#fff;">3</span><div><p class="text-sm font-semibold">Deploy on Render</p><p class="text-xs text-gray-400">New Web Service → Connect repo → Add ENV VARS (PORT, MONGO_URI, CLIENT_URL)</p></div></div>
+                <div class="flex gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-100 fade-up" style="animation-delay:240ms;"><span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold shrink-0" style="background:var(--accent);color:#fff;">4</span><div><p class="text-sm font-semibold">Copy Render URL</p><p class="text-xs text-gray-400">It looks like: <code class="bg-gray-100 px-1.5 py-0.5 rounded text-[10px]">https://remsons-api.onrender.com</code></p></div></div>
+            </div>
+            <div class="flex gap-3"><button onclick="onboardBack(1)" class="btn-outline py-3.5 rounded-xl font-semibold text-sm px-5"><i class="fas fa-arrow-left mr-1"></i> Back</button><button onclick="onboardNext(3)" class="btn-accent btn-ripple flex-1 py-3.5 rounded-xl font-semibold text-sm">I Have the URL <i class="fas fa-arrow-right ml-1"></i></button></div>
+        </div>
+
+        <div class="onboard-step right-step" id="onboardStep3">
+            <h3 class="font-display text-2xl font-bold mb-1">Connect to Backend</h3>
+            <p class="text-gray-400 text-sm mb-5">Paste your Render backend URL</p>
+            <div class="mb-4"><label class="block text-sm font-semibold text-gray-700 mb-1.5">Backend API URL</label><input type="url" id="onboardBackendUrl" class="input-styled w-full px-4 py-3.5 rounded-xl text-sm font-mono" placeholder="https://remsons-api.onrender.com" value="https://remsons-api.onrender.com"></div>
+            <div id="onboardTestResult" class="mb-4 hidden"></div>
+            <div class="flex gap-3"><button onclick="onboardBack(2)" class="btn-outline py-3.5 rounded-xl font-semibold text-sm px-5"><i class="fas fa-arrow-left mr-1"></i> Back</button><button onclick="testAndConnectBackend()" id="onboardConnectBtn" class="btn-accent btn-ripple flex-1 py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"><i class="fas fa-plug"></i> Test &amp; Connect</button></div>
+            <button onclick="skipOnboarding()" class="w-full py-3 text-xs text-gray-300 hover:text-gray-500 transition mt-3">Skip for now</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="appShell" class="hidden">
+    <nav class="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-gray-100/80 transition-all duration-300" id="mainNav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="navigateTo('dashboard')">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:rotate-6" style="background:linear-gradient(135deg,var(--accent),var(--accent-dark));"><i class="fas fa-hotel text-white text-sm"></i></div>
+                <div><h1 class="font-display text-xl font-bold leading-tight tracking-tight">Remsons</h1><p class="text-[10px] font-semibold tracking-[0.25em] uppercase" style="color:var(--accent);">Hospitality</p></div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div id="syncIndicator" class="hidden sm:flex items-center gap-1.5 text-[11px] text-gray-400 mr-2"><i class="fas fa-circle text-[8px] text-gray-300"></i> Local only</div>
+                <button onclick="navigateTo('dashboard')" class="nav-link text-sm font-medium px-2 py-1 text-gray-500 hover:text-gray-900 transition hidden sm:inline-block">Dashboard</button>
+                <button onclick="openAddHouseModal()" class="btn-accent btn-ripple text-sm font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2"><i class="fas fa-plus text-xs"></i><span class="hidden sm:inline">Add House</span></button>
+                <button onclick="openSettingsModal()" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-100 transition group" title="Backend Settings"><i class="fas fa-cog text-gray-300 group-hover:text-gray-500 transition"></i></button>
+            </div>
+        </div>
+    </nav>
+    <main id="mainContent" class="max-w-7xl mx-auto px-4 sm:px-6 py-8 relative z-10"></main>
+    <button class="fab btn-ripple sm:hidden" onclick="openAddHouseModal()" aria-label="Add Guest House"><i class="fas fa-plus"></i></button>
+</div>
+
+<!-- Modals (Add House, Settings, Confirm) -->
+<div id="addHouseModal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"><div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"><div class="h-1 shimmer"></div><div class="px-6 pt-6 pb-4"><div class="flex items-center justify-between mb-6"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(184,115,51,0.1);"><i class="fas fa-home" style="color:var(--accent);"></i></div><h2 class="font-display text-2xl font-bold">Add Guest House</h2></div><button onclick="closeModal('addHouseModal')" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition text-gray-400 hover:text-gray-600"><i class="fas fa-times"></i></button></div><form id="addHouseForm" onsubmit="handleAddHouse(event)"><div class="space-y-5"><div><label class="block text-sm font-semibold text-gray-700 mb-1.5">House Name</label><input type="text" id="houseNameInput" class="input-styled w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g. Palm Residency" required></div><div><label class="block text-sm font-semibold text-gray-700 mb-1.5">Address <span class="text-gray-400 font-normal">(optional)</span></label><input type="text" id="houseAddressInput" class="input-styled w-full px-4 py-3 rounded-xl text-sm" placeholder="e.g. SG Highway, Ahmedabad"></div><div><label class="block text-sm font-semibold text-gray-700 mb-3">BHK Type</label><div class="flex gap-3" id="bhkSelector"><div class="bhk-btn flex-1 text-center py-3.5 rounded-xl font-bold text-lg" data-bhk="3" onclick="selectBHK(3)">3</div><div class="bhk-btn flex-1 text-center py-3.5 rounded-xl font-bold text-lg" data-bhk="4" onclick="selectBHK(4)">4</div><div class="bhk-btn flex-1 text-center py-3.5 rounded-xl font-bold text-lg" data-bhk="5" onclick="selectBHK(5)">5</div></div><p class="text-xs text-gray-400 mt-2" id="bhkHint">Select number of bedrooms</p></div></div><button type="submit" class="btn-accent btn-ripple w-full py-3.5 rounded-xl font-semibold text-sm mt-6 flex items-center justify-center gap-2"><i class="fas fa-plus text-xs"></i> Add Guest House</button></form></div></div></div>
+
+<div id="settingsModal" class="modal-overlay fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"><div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden"><div class="h-1 shimmer"></div><div class="px-6 pt-6 pb-6"><div class="flex items-center justify-between mb-6"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-50"><i class="fas fa-server text-blue-400"></i></div><h2 class="font-display text-2xl font-bold">Backend Settings</h2></div><button onclick="closeModal('settingsModal')" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition text-gray-400"><i class="fas fa-times"></i></button></div><div id="settingsSyncStatus" class="mb-5 p-4 rounded-xl bg-gray-50 border border-gray-100"><div class="flex items-center gap-2 text-sm text-gray-400"><i class="fas fa-circle text-[8px] text-gray-300"></i> Checking...</div></div><div class="mb-5"><label class="block text-sm font-semibold text-gray-700 mb-1.5">Render Backend URL</label><input type="url" id="settingsBackendUrl" class="input-styled w-full px-4 py-3 rounded-xl text-sm font-mono" placeholder="https://remsons-api.onrender.com"></div><div class="flex gap-3 mb-6"><button onclick="saveBackendFromSettings()" class="btn-accent btn-ripple flex-1 py-3 rounded-xl font-semibold text-sm">Save &amp; Connect</button><button onclick="disconnectBackendFromSettings()" class="btn-outline flex-1 py-3 rounded-xl font-semibold text-sm">Disconnect</button></div><div class="border-t border-gray-100 pt-5"><h3 class="font-semibold text-sm text-gray-700 mb-3">Manual Backup</h3><div class="flex gap-3"><button onclick="exportData()" class="btn-outline btn-ripple flex-1 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2"><i class="fas fa-download text-xs"></i> Export</button><label class="btn-outline flex-1 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer"><i class="fas fa-upload text-xs"></i> Import<input type="file" accept=".json" onchange="importData(event)" class="hidden"></label></div></div></div></div></div>
+
+<div id="confirmModal" class="modal-overlay fixed inset-0 z-[70] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"><div class="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"><div class="px-6 pt-6 pb-6 text-center"><div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background:rgba(239,68,68,0.08);"><i class="fas fa-exclamation-triangle text-2xl" style="color:var(--danger);"></i></div><h3 class="font-display text-xl font-bold mb-2" id="confirmTitle">Delete?</h3><p class="text-sm text-gray-500 mb-6" id="confirmMessage">This action cannot be undone.</p><div class="flex gap-3"><button onclick="closeModal('confirmModal')" class="btn-outline flex-1 py-3 rounded-xl font-semibold text-sm">Cancel</button><button id="confirmAction" class="btn-danger-fill btn-ripple flex-1 py-3 rounded-xl font-semibold text-sm">Delete</button></div></div></div></div>
+
+<script>
+const DEFAULT_BACKEND_URL = 'https://remsons-api.onrender.com';
+let state = { guestHouses: [], backendUrl: DEFAULT_BACKEND_URL, currentView: 'dashboard', selectedHouseId: null, selectedBHK: null, lastSynced: null, isOnline: false };
+function uid() { return 'id_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 8); }
+
+function saveLocal() { try { localStorage.setItem('remsons_data', JSON.stringify({ guestHouses: state.guestHouses, backendUrl: state.backendUrl, lastSynced: state.lastSynced, onboarded: true })); } catch(e) {} }
+function loadLocal() { try { const raw = localStorage.getItem('remsons_data'); if (raw) { const d = JSON.parse(raw); state.guestHouses = d.guestHouses || []; state.backendUrl = Object.prototype.hasOwnProperty.call(d, 'backendUrl') ? d.backendUrl : DEFAULT_BACKEND_URL; state.lastSynced = d.lastSynced || null; } } catch(e) {} }
+
+// === BACKEND API COMMUNICATION ===
+async function pushToCloud() {
+    if (!state.backendUrl) return;
+    try {
+        const url = state.backendUrl.replace(/\/$/, '') + '/api/data';
+        const res = await fetch(url, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ guestHouses: state.guestHouses }) });
+        if (res.ok) { const data = await res.json(); state.lastSynced = data.lastUpdated; state.isOnline = true; saveLocal(); updateSyncUI(); }
+        else { state.isOnline = false; updateSyncUI(); }
+    } catch(e) { console.error('Push failed:', e); state.isOnline = false; updateSyncUI(); }
+}
+
+async function pullFromCloud() {
+    if (!state.backendUrl) return;
+    try {
+        const url = state.backendUrl.replace(/\/$/, '') + '/api/data';
+        const res = await fetch(url);
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.guestHouses) {
+                const localTime = state.lastSynced || 0;
+                const cloudTime = data.lastUpdated || 0;
+                if (cloudTime > localTime) { state.guestHouses = data.guestHouses; state.lastSynced = cloudTime; saveLocal(); render(); }
+                state.isOnline = true;
+            }
+        } else { state.isOnline = false; }
+    } catch(e) { console.error('Pull failed:', e); state.isOnline = false; }
+    updateSyncUI();
+}
+
+async function testBackendConnection(url) { try { const res = await fetch(url.replace(/\/$/, '') + '/api/data'); return res.ok; } catch(e) { return false; } }
+
+function updateSyncUI() {
+    const indicator = document.getElementById('syncIndicator'); if (!indicator) return;
+    if (state.isOnline && state.backendUrl) { const t = state.lastSynced ? new Date(state.lastSynced).toLocaleTimeString() : 'now'; indicator.innerHTML = `<div class="pulse-dot"></div> Synced ${t}`; indicator.className = 'hidden sm:flex items-center gap-1.5 text-[11px] text-emerald-500 mr-2'; }
+    else if (state.backendUrl) { indicator.innerHTML = `<i class="fas fa-exclamation-circle text-amber-400 text-[10px]"></i> Offline`; indicator.className = 'hidden sm:flex items-center gap-1.5 text-[11px] text-amber-500 mr-2'; }
+    else { indicator.innerHTML = `<i class="fas fa-circle text-[8px] text-gray-300"></i> Local only`; indicator.className = 'hidden sm:flex items-center gap-1.5 text-[11px] text-gray-400 mr-2'; }
+    const sStatus = document.getElementById('settingsSyncStatus');
+    if (sStatus) { if (state.isOnline && state.backendUrl) { const t = state.lastSynced ? new Date(state.lastSynced).toLocaleTimeString() : 'now'; sStatus.innerHTML = `<div class="flex items-center gap-2 text-sm text-emerald-600"><div class="pulse-dot"></div> Connected — last sync at ${t}</div>`; } else if (state.backendUrl) { sStatus.innerHTML = `<div class="flex items-center gap-2 text-sm text-amber-500"><i class="fas fa-exclamation-circle text-xs"></i> URL saved but connection failed</div>`; } else { sStatus.innerHTML = `<div class="flex items-center gap-2 text-sm text-gray-400"><i class="fas fa-circle text-[8px] text-gray-300"></i> No backend configured</div>`; } }
+}
+
+// === CRUD ===
+function addGuestHouse(name, address, bhk) { const rooms = []; for (let i = 1; i <= bhk; i++) rooms.push({ id: uid(), name: 'Room ' + i, occupants: [] }); state.guestHouses.push({ id: uid(), name, address, bhk, rooms, createdAt: Date.now() }); saveLocal(); pushToCloud(); render(); }
+function deleteGuestHouse(id) { state.guestHouses = state.guestHouses.filter(h => h.id !== id); saveLocal(); pushToCloud(); navigateTo('dashboard'); render(); }
+function updateRoomName(houseId, roomId, newName) { const house = state.guestHouses.find(h => h.id === houseId); if (!house) return; const room = house.rooms.find(r => r.id === roomId); if (!room) return; room.name = newName; saveLocal(); pushToCloud(); }
+function updateHouseName(houseId, newName) { const house = state.guestHouses.find(h => h.id === houseId); if (!house) return; house.name = newName; saveLocal(); pushToCloud(); render(); }
+function addOccupant(houseId, roomId, name) { const house = state.guestHouses.find(h => h.id === houseId); if (!house) return; const room = house.rooms.find(r => r.id === roomId); if (!room) return; if (room.occupants.includes(name)) { showToast('Already in room', 'warning'); return; } room.occupants.push(name); saveLocal(); pushToCloud(); render(); }
+function removeOccupant(houseId, roomId, index) { const house = state.guestHouses.find(h => h.id === houseId); if (!house) return; const room = house.rooms.find(r => r.id === roomId); if (!room) return; room.occupants.splice(index, 1); saveLocal(); pushToCloud(); render(); }
+
+// === ANIMATIONS ===
+function createParticles() { const c = document.getElementById('particlesContainer'); for (let i = 0; i < 12; i++) { const p = document.createElement('div'); p.className = 'particle'; const size = Math.random() * 50 + 20; p.style.width = size + 'px'; p.style.height = size + 'px'; p.style.left = Math.random() * 100 + '%'; p.style.animationDuration = (Math.random() * 20 + 15) + 's'; p.style.animationDelay = (Math.random() * 10) + 's'; c.appendChild(p); } }
+document.addEventListener('click', function(e) { const btn = e.target.closest('.btn-ripple'); if (!btn) return; const rect = btn.getBoundingClientRect(); const circle = document.createElement('span'); circle.className = 'ripple-circle'; const d = Math.max(rect.width, rect.height); circle.style.width = circle.style.height = d + 'px'; circle.style.left = (e.clientX - rect.left - d / 2) + 'px'; circle.style.top = (e.clientY - rect.top - d / 2) + 'px'; btn.appendChild(circle); setTimeout(() => circle.remove(), 600); });
+function initTiltCards() { document.querySelectorAll('.card-3d').forEach(card => { card.addEventListener('mousemove', function(e) { const rect = this.getBoundingClientRect(); const x = e.clientX - rect.left, y = e.clientY - rect.top; const rx = ((y - rect.height / 2) / (rect.height / 2)) * -4; const ry = ((x - rect.width / 2) / (rect.width / 2)) * 4; this.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`; }); card.addEventListener('mouseleave', function() { this.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)'; }); }); }
+function initScrollReveal() { const obs = new IntersectionObserver(entries => { entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); }); }, { threshold: 0.1 }); document.querySelectorAll('.reveal').forEach(el => obs.observe(el)); }
+function animateCounters() { document.querySelectorAll('[data-count]').forEach(el => { const target = parseInt(el.dataset.count); const start = performance.now(); function tick(now) { const p = Math.min((now - start) / 1200, 1); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); } requestAnimationFrame(tick); }); }
+
+// === ONBOARDING ===
+let currentOnboardStep = 1;
+function onboardNext(step) { document.getElementById('onboardStep' + currentOnboardStep).className = 'onboard-step left-step'; document.getElementById('onboardStep' + step).className = 'onboard-step active-step'; currentOnboardStep = step; updateStepDots(step); }
+function onboardBack(step) { document.getElementById('onboardStep' + currentOnboardStep).className = 'onboard-step right-step'; document.getElementById('onboardStep' + step).className = 'onboard-step active-step'; currentOnboardStep = step; updateStepDots(step); }
+function updateStepDots(active) { document.querySelectorAll('.step-dot').forEach(d => d.classList.toggle('active', parseInt(d.dataset.step) === active)); }
+function skipOnboarding() { state.backendUrl = ''; state.isOnline = false; saveLocal(); localStorage.setItem('remsons_onboarded', 'true'); launchApp(); }
+async function testAndConnectBackend() {
+    const url = document.getElementById('onboardBackendUrl').value.trim(); const resultDiv = document.getElementById('onboardTestResult'); const btn = document.getElementById('onboardConnectBtn');
+    if (!url) { resultDiv.className = 'mb-4 p-3 rounded-xl bg-amber-50 border border-amber-100 text-sm text-amber-600'; resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> Please enter a URL'; resultDiv.classList.remove('hidden'); return; }
+    btn.disabled = true; btn.innerHTML = '<div class="spin-loader"></div> Testing...'; resultDiv.classList.remove('hidden'); resultDiv.className = 'mb-4 p-3 rounded-xl bg-blue-50 border border-blue-100 text-sm text-blue-500'; resultDiv.innerHTML = '<i class="fas fa-sync-alt sync-pulse mr-1"></i> Connecting to backend...';
+    const success = await testBackendConnection(url);
+    if (success) { state.backendUrl = url; state.isOnline = true; state.lastSynced = Date.now(); saveLocal(); localStorage.setItem('remsons_onboarded', 'true'); resultDiv.className = 'mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-sm text-emerald-600'; resultDiv.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Connected! Launching...'; btn.innerHTML = '<i class="fas fa-check"></i> Connected!'; await pullFromCloud(); setTimeout(() => launchApp(), 800); }
+    else { btn.disabled = false; btn.innerHTML = '<i class="fas fa-plug"></i> Test &amp; Connect'; resultDiv.className = 'mb-4 p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-500'; resultDiv.innerHTML = '<i class="fas fa-times-circle mr-1"></i> Connection failed. Check URL and CORS settings.'; }
+}
+function launchApp() { document.getElementById('onboarding').style.display = 'none'; document.getElementById('appShell').classList.remove('hidden'); render(); updateSyncUI(); if (state.backendUrl) pullFromCloud(); }
+
+// === RENDER ===
+function navigateTo(view, houseId) { state.currentView = view; state.selectedHouseId = houseId || null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function render() { const main = document.getElementById('mainContent'); if (state.currentView === 'dashboard') main.innerHTML = renderDashboard(); else if (state.currentView === 'houseDetail') main.innerHTML = renderHouseDetail(); requestAnimationFrame(() => { initTiltCards(); initScrollReveal(); animateCounters(); }); }
+function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+function renderDashboard() {
+    const houses = state.guestHouses; const totalRooms = houses.reduce((s, h) => s + h.rooms.length, 0); const occupiedRooms = houses.reduce((s, h) => s + h.rooms.filter(r => r.occupants.length > 0).length, 0); const totalOccupants = houses.reduce((s, h) => s + h.rooms.reduce((s2, r) => s2 + r.occupants.length, 0), 0); const vacantRooms = totalRooms - occupiedRooms;
+    let html = `<section class="hero-video-wrap mb-8"><video autoplay muted loop playsinline><source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4" type="video/mp4"></video><div class="hero-video-overlay px-6 sm:px-10 py-10 sm:py-14"><div class="max-w-3xl"><p class="text-xs font-bold tracking-[0.3em] uppercase mb-3 fade-up" style="color:var(--accent);animation-delay:0ms;"><i class="fas fa-concierge-bell mr-1"></i> Ahmedabad's Finest</p><h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 fade-up" style="animation-delay:100ms;line-height:1.1;">Welcome to<br>Remsons Hospitality</h2><p class="text-gray-500 text-base sm:text-lg mb-8 max-w-lg fade-up" style="animation-delay:200ms;">Premium guest house management. Track rooms, occupants, and occupancy in real time.</p><div class="grid gap-4 stat-grid" style="grid-template-columns:repeat(4,1fr);"><div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm fade-up" style="animation-delay:250ms;"><div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:rgba(184,115,51,0.1);"><i class="fas fa-building text-sm" style="color:var(--accent);"></i></div><p class="text-2xl font-bold" data-count="${houses.length}">0</p><p class="text-[11px] text-gray-400 font-medium">Guest Houses</p></div><div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm fade-up" style="animation-delay:350ms;"><div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:rgba(16,185,129,0.1);"><i class="fas fa-door-open text-sm text-emerald-500"></i></div><p class="text-2xl font-bold" data-count="${totalRooms}">0</p><p class="text-[11px] text-gray-400 font-medium">Total Rooms</p></div><div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm fade-up" style="animation-delay:450ms;"><div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:rgba(59,130,246,0.1);"><i class="fas fa-user-friends text-sm text-blue-500"></i></div><p class="text-2xl font-bold" data-count="${totalOccupants}">0</p><p class="text-[11px] text-gray-400 font-medium">Occupants</p></div><div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm fade-up" style="animation-delay:550ms;"><div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2" style="background:rgba(245,158,11,0.1);"><i class="fas fa-bed text-sm text-amber-500"></i></div><p class="text-2xl font-bold" data-count="${vacantRooms}">0</p><p class="text-[11px] text-gray-400 font-medium">Vacant Rooms</p></div></div></div></div></section>
+    <section class="mb-10 overflow-hidden py-4"><div class="marquee-track">${['Premium Service','Ahmedabad','Fully Furnished','3 to 5 BHK','Corporate Stays','Guest Management','Remsons Hospitality','Real-time Sync'].map(t=>`<span class="text-xs font-bold tracking-widest uppercase text-gray-200 whitespace-nowrap">${t}</span><span class="text-xs" style="color:var(--accent);">&#9670;</span>`).join('')}${['Premium Service','Ahmedabad','Fully Furnished','3 to 5 BHK','Corporate Stays','Guest Management','Remsons Hospitality','Real-time Sync'].map(t=>`<span class="text-xs font-bold tracking-widest uppercase text-gray-200 whitespace-nowrap">${t}</span><span class="text-xs" style="color:var(--accent);">&#9670;</span>`).join('')}</div></section>
+    <section class="mb-10 reveal"><div class="video-showcase"><video autoplay muted loop playsinline><source src="https://videos.pexels.com/video-files/1093662/1093662-hd_1920_1080_30fps.mp4" type="video/mp4"></video><div class="video-overlay-gradient"></div><div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 z-10"><p class="text-white/60 text-xs font-bold tracking-[0.2em] uppercase mb-1">Experience</p><h3 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">Comfort Meets Convenience</h3><p class="text-white/50 text-sm max-w-md">Our service apartments in Ahmedabad offer the perfect blend of luxury and functionality.</p></div></div></section>`;
+    
+    if (houses.length === 0) { html += `<section class="text-center py-20 reveal"><div class="w-28 h-28 rounded-3xl mx-auto mb-6 flex items-center justify-center relative" style="background:var(--cream);"><i class="fas fa-home text-4xl" style="color:var(--accent);"></i><div class="absolute inset-0 rounded-3xl border-2 border-dashed animate-spin" style="border-color:rgba(184,115,51,0.2);animation-duration:10s;"></div></div><h3 class="font-display text-2xl font-bold mb-2">No Guest Houses Yet</h3><p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">Add your first guest house to start managing rooms and occupants.</p><button onclick="openAddHouseModal()" class="btn-accent btn-ripple px-8 py-3.5 rounded-xl font-semibold text-sm inline-flex items-center gap-2"><i class="fas fa-plus text-xs"></i> Add Your First House</button></section>`; }
+    else { html += `<section><div class="flex items-center justify-between mb-6"><div><h3 class="font-display text-2xl font-bold">Your Properties</h3><p class="text-sm text-gray-400 mt-0.5">${houses.length} ${houses.length===1?'house':'houses'} across Ahmedabad</p></div></div><div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">`; houses.forEach((house, idx) => { const occRooms = house.rooms.filter(r => r.occupants.length > 0).length; const totalR = house.rooms.length; const pct = totalR > 0 ? Math.round((occRooms / totalR) * 100) : 0; const seed = house.name.replace(/\s/g, '-').toLowerCase(); html += `<div class="card-3d bg-white rounded-2xl border border-gray-100 overflow-hidden reveal" style="transition-delay:${idx*80}ms;"><div class="relative h-36 overflow-hidden"><img src="https://picsum.photos/seed/${seed}-${house.bhk}/600/300.jpg" alt="" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"><div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div><span class="absolute top-3 right-3 text-[11px] font-bold px-3 py-1 rounded-lg bg-white/90 backdrop-blur-sm shadow-sm" style="color:var(--accent);">${house.bhk} BHK</span><h4 class="absolute bottom-3 left-4 font-display text-lg font-bold text-white drop-shadow-lg truncate max-w-[80%]">${esc(house.name)}</h4></div><div class="p-5">${house.address?`<p class="text-xs text-gray-400 mb-3 -mt-1"><i class="fas fa-map-marker-alt mr-1" style="color:var(--accent);"></i>${esc(house.address)}</p>`:'<div class="mb-2"></div>'}<div class="mb-4"><div class="flex items-center justify-between text-[11px] mb-1.5"><span class="text-gray-500 font-medium">${occRooms}/${totalR} rooms occupied</span><span class="font-bold" style="color:var(--accent);">${pct}%</span></div><div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full" style="width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div><div class="flex flex-wrap gap-1.5 mb-4">${house.rooms.map(r=>`<span class="text-[10px] font-semibold px-2 py-0.5 rounded-md ${r.occupants.length>0?'bg-emerald-50 text-emerald-600':'bg-gray-50 text-gray-400'}">${r.occupants.length>0?'<i class="fas fa-user-check mr-0.5"></i>':'<i class="fas fa-door-closed mr-0.5"></i>'}${esc(r.name)}</span>`).join('')}</div><div class="flex gap-2"><button onclick="navigateTo('houseDetail','${house.id}')" class="btn-accent btn-ripple flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5"><i class="fas fa-eye"></i> View Details</button><button onclick="confirmDeleteHouse('${house.id}')" class="w-9 h-9 rounded-xl flex items-center justify-center border border-red-100 text-red-300 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all duration-300" title="Delete"><i class="fas fa-trash-alt text-xs"></i></button></div></div></div>`; }); html += `</div></section>`; }
+    return html;
+}
+
+function renderHouseDetail() {
+    const house = state.guestHouses.find(h => h.id === state.selectedHouseId); if (!house) { navigateTo('dashboard'); return ''; } const occRooms = house.rooms.filter(r => r.occupants.length > 0).length; const totalOccupants = house.rooms.reduce((s, r) => s + r.occupants.length, 0); const pct = house.rooms.length > 0 ? Math.round((occRooms / house.rooms.length) * 100) : 0; const seed = house.name.replace(/\s/g, '-').toLowerCase();
+    let html = `<button onclick="navigateTo('dashboard')" class="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-gray-800 transition-all duration-300 mb-6 group"><i class="fas fa-arrow-left text-xs group-hover:-translate-x-2 transition-transform duration-300"></i> Back to Dashboard</button><section class="hero-video-wrap mb-8"><video autoplay muted loop playsinline poster="https://picsum.photos/seed/${seed}-detail/1280/400.jpg"><source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4" type="video/mp4"></video><div class="hero-video-overlay px-6 sm:px-10 py-8 sm:py-10"><div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4"><div><div class="flex items-center gap-2 mb-2"><span class="text-[11px] font-bold px-3 py-1 rounded-lg text-white" style="background:var(--accent);">${house.bhk} BHK</span>${house.address?`<span class="text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${esc(house.address)}</span>`:''}</div><h2 class="font-display text-3xl sm:text-4xl font-bold" id="houseTitleDisplay">${esc(house.name)}</h2><button onclick="editHouseNameInline('${house.id}')" class="text-xs font-medium mt-1 transition hover:opacity-70" style="color:var(--accent);"><i class="fas fa-pen mr-1"></i>Rename</button></div><div class="flex gap-3"><div class="text-center bg-white/80 backdrop-blur-sm rounded-xl p-3 shadow-sm min-w-[72px]"><p class="text-xl font-bold" data-count="${house.rooms.length}">0</p><p class="text-[10px] text-gray-400 font-medium">Rooms</p></div><div class="text-center bg-white/80 backdrop-blur-sm rounded-xl p-3 shadow-sm min-w-[72px]"><p class="text-xl font-bold text-emerald-600" data-count="${occRooms}">0</p><p class="text-[10px] text-gray-400 font-medium">Occupied</p></div><div class="text-center bg-white/80 backdrop-blur-sm rounded-xl p-3 shadow-sm min-w-[72px]"><p class="text-xl font-bold text-amber-500" data-count="${totalOccupants}">0</p><p class="text-[10px] text-gray-400 font-medium">People</p></div></div></div><div class="mt-5 max-w-md"><div class="flex items-center justify-between text-[11px] mb-1.5"><span class="text-gray-500 font-medium">Overall Occupancy</span><span class="font-bold" style="color:var(--accent);">${pct}%</span></div><div class="h-2.5 bg-white/50 rounded-full overflow-hidden"><div class="progress-fill h-full rounded-full" style="width:${pct}%;background:linear-gradient(90deg,var(--accent-light),var(--accent));"></div></div></div></div></section><section><h3 class="font-display text-2xl font-bold mb-6">Rooms &amp; Occupants</h3><div class="space-y-4">`;
+    house.rooms.forEach((room, rIdx) => { const isOcc = room.occupants.length > 0; html += `<div class="room-card ${isOcc?'occupied':''} bg-white rounded-2xl border border-gray-100 p-5 reveal" style="transition-delay:${rIdx*80}ms;"><div class="flex items-center justify-between mb-4"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl flex items-center justify-center text-base transition-all duration-300 ${isOcc?'bg-emerald-50 text-emerald-500':'bg-gray-50 text-gray-300'}"><i class="fas ${isOcc?'fa-user-check':'fa-door-closed'}"></i></div><div><span class="font-semibold text-lg" id="roomName_${room.id}">${esc(room.name)}</span><button onclick="editRoomNameInline('${house.id}','${room.id}')" class="ml-2 text-[10px] font-medium transition hover:opacity-70" style="color:var(--accent);"><i class="fas fa-pen"></i></button><p class="text-[11px] text-gray-400 mt-0.5">${room.occupants.length} ${room.occupants.length===1?'occupant':'occupants'}</p></div></div><span class="text-[10px] font-bold px-2.5 py-1 rounded-lg ${isOcc?'bg-emerald-50 text-emerald-600':'bg-gray-50 text-gray-400'}">${isOcc?'OCCUPIED':'VACANT'}</span></div>${room.occupants.length>0?`<div class="flex flex-wrap gap-2 mb-4">${room.occupants.map((occ,oi)=>`<span class="occ-tag inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium" style="animation-delay:${oi*60}ms;background:var(--cream);border:1px solid var(--border);"><div class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style="background:var(--accent);">${esc(occ.charAt(0).toUpperCase())}</div>${esc(occ)}<button onclick="removeOccupant('${house.id}','${room.id}',${oi})" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all duration-200 text-[9px] ml-1" title="Remove"><i class="fas fa-times"></i></button></span>`).join('')}</div>`:`<div class="flex items-center gap-3 mb-4 p-3 rounded-xl bg-gray-50/50 border border-dashed border-gray-200"><i class="fas fa-user-plus text-gray-300"></i><p class="text-xs text-gray-300 italic">No occupants yet</p></div>`}<form onsubmit="handleAddOccupant(event,'${house.id}','${room.id}')" class="flex gap-2"><input type="text" id="occInput_${room.id}" class="input-styled flex-1 px-4 py-2.5 rounded-xl text-sm" placeholder="Enter occupant name..." required><button type="submit" class="btn-accent btn-ripple px-5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5"><i class="fas fa-plus text-[10px]"></i> Add</button></form></div>`; });
+    html += `</div><div class="mt-12 pt-6 border-t border-gray-100 reveal"><h4 class="text-xs font-bold text-red-300 uppercase tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-1"></i> Danger Zone</h4><button onclick="confirmDeleteHouse('${house.id}')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-red-100 text-red-300 text-sm font-medium hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all duration-300"><i class="fas fa-trash-alt text-xs"></i> Delete This Guest House</button></div></section>`;
+    return html;
+}
+
+// === UI HELPERS ===
+function showToast(message, type='success') { const c = document.getElementById('toastContainer'); const colors = {success:'bg-emerald-600',error:'bg-red-500',warning:'bg-amber-500',info:'bg-sky-500'}; const icons = {success:'fa-check-circle',error:'fa-times-circle',warning:'fa-exclamation-circle',info:'fa-info-circle'}; const t = document.createElement('div'); t.className = `toast-item pointer-events-auto ${colors[type]||colors.success} text-white px-5 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-2.5`; t.innerHTML = `<i class="fas ${icons[type]||icons.success} text-xs opacity-80"></i> ${message}`; c.appendChild(t); setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3500); }
+function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow=''; }
+function openAddHouseModal() { state.selectedBHK = null; document.getElementById('houseNameInput').value = ''; document.getElementById('houseAddressInput').value = ''; document.querySelectorAll('.bhk-btn').forEach(b => b.classList.remove('selected')); document.getElementById('bhkHint').textContent = 'Select number of bedrooms'; openModal('addHouseModal'); }
+function selectBHK(n) { state.selectedBHK = n; document.querySelectorAll('.bhk-btn').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.bhk) === n)); document.getElementById('bhkHint').textContent = `${n} bedroom${n>1?'s':''} will be created`; }
+function handleAddHouse(e) { e.preventDefault(); const name = document.getElementById('houseNameInput').value.trim(); const address = document.getElementById('houseAddressInput').value.trim(); if (!name) { showToast('Please enter a house name', 'warning'); return; } if (!state.selectedBHK) { showToast('Please select BHK type', 'warning'); return; } addGuestHouse(name, address, state.selectedBHK); closeModal('addHouseModal'); showToast(`${name} added successfully!`, 'success'); }
+function openSettingsModal() { document.getElementById('settingsBackendUrl').value = state.backendUrl || ''; updateSyncUI(); openModal('settingsModal'); }
+async function saveBackendFromSettings() { const url = document.getElementById('settingsBackendUrl').value.trim(); if (!url) { showToast('Please enter a URL', 'warning'); return; } state.backendUrl = url; saveLocal(); showToast('Testing connection...', 'info'); await pullFromCloud(); if (state.isOnline) { showToast('Connected! Data synced.', 'success'); await pushToCloud(); render(); } else { showToast('Connection failed — check URL and CORS', 'error'); } updateSyncUI(); }
+function disconnectBackendFromSettings() { state.backendUrl = ''; state.isOnline = false; document.getElementById('settingsBackendUrl').value = ''; saveLocal(); updateSyncUI(); showToast('Backend disconnected', 'info'); }
+function exportData() { const blob = new Blob([JSON.stringify({guestHouses:state.guestHouses,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url;a.download=`remsons_backup_${new Date().toISOString().slice(0,10)}.json`; a.click();URL.revokeObjectURL(url); showToast('Data exported','success'); }
+function importData(e) { const file = e.target.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = function(ev) { try { const data = JSON.parse(ev.target.result); if (data.guestHouses && Array.isArray(data.guestHouses)) { state.guestHouses = data.guestHouses; saveLocal(); pushToCloud(); render(); showToast('Data imported!', 'success'); closeModal('settingsModal'); } else { showToast('Invalid file', 'error'); } } catch(err) { showToast('Parse failed', 'error'); } }; reader.readAsText(file); e.target.value=''; }
+function editHouseNameInline(houseId) { const house = state.guestHouses.find(h=>h.id===houseId); if(!house) return; const el = document.getElementById('houseTitleDisplay'); if(!el) return; el.innerHTML = `<input type="text" value="${esc(house.name)}" id="houseNameEdit" class="input-styled font-display text-2xl sm:text-3xl font-bold px-3 py-1 rounded-xl w-full max-w-md" onkeydown="if(event.key==='Enter'){saveHouseNameInline('${houseId}');} if(event.key==='Escape'){render();}" onblur="saveHouseNameInline('${houseId}')">`; const inp = document.getElementById('houseNameEdit'); inp.focus(); inp.select(); }
+function saveHouseNameInline(houseId) { const input = document.getElementById('houseNameEdit'); if(!input) return; const val = input.value.trim(); if (val) updateHouseName(houseId, val); else render(); }
+function editRoomNameInline(houseId, roomId) { const house = state.guestHouses.find(h=>h.id===houseId); if(!house) return; const room = house.rooms.find(r=>r.id===roomId); if(!room) return; const el = document.getElementById('roomName_'+roomId); if(!el) return; el.innerHTML = `<input type="text" value="${esc(room.name)}" id="roomNameEdit_${roomId}" class="input-styled text-sm font-semibold px-2 py-0.5 rounded-lg w-40" onkeydown="if(event.key==='Enter'){saveRoomNameInline('${houseId}','${roomId}');} if(event.key==='Escape'){render();}" onblur="saveRoomNameInline('${houseId}','${roomId}')">`; const inp = document.getElementById('roomNameEdit_'+roomId); inp.focus(); inp.select(); }
+function saveRoomNameInline(houseId, roomId) { const inp = document.getElementById('roomNameEdit_'+roomId); if(!inp) return; const val = inp.value.trim(); if (val) { updateRoomName(houseId, roomId, val); render(); } else render(); }
+function handleAddOccupant(e, houseId, roomId) { e.preventDefault(); const input = document.getElementById('occInput_'+roomId); if(!input) return; const name = input.value.trim(); if(!name) return; addOccupant(houseId, roomId, name); showToast(`${name} added`, 'success'); }
+function confirmDeleteHouse(houseId) { const house = state.guestHouses.find(h=>h.id===houseId); if(!house) return; document.getElementById('confirmTitle').textContent = 'Delete Guest House?'; document.getElementById('confirmMessage').textContent = `Delete "${house.name}" and all its rooms?`; document.getElementById('confirmAction').onclick = function() { deleteGuestHouse(houseId); closeModal('confirmModal'); showToast('Guest house deleted','info'); }; openModal('confirmModal'); }
+document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', function(e) { if(e.target===this) closeModal(this.id); }); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') document.querySelectorAll('.modal-overlay.active').forEach(m=>closeModal(m.id)); });
+window.addEventListener('scroll', () => { const nav = document.getElementById('mainNav'); if(nav) nav.style.boxShadow = window.scrollY > 10 ? '0 4px 20px rgba(0,0,0,0.06)' : 'none'; });
+
+// === INIT ===
+(function init() { loadLocal(); createParticles(); const onboarded = localStorage.getItem('remsons_onboarded'); if (onboarded) { launchApp(); if (state.backendUrl) { pullFromCloud(); setInterval(() => { if(state.backendUrl) pullFromCloud(); }, 15000); } } else { document.getElementById('onboarding').style.display = 'flex'; document.getElementById('appShell').classList.add('hidden'); } })();
+</script>
+</body>
+</html>
